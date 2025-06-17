@@ -18,7 +18,7 @@ export class Appointment {
   appointmentDate: Date;
 
   @Column({ default: 'pending' })
-  status: 'pending' | 'accepted' | 'rejected';
+  status: 'pending' | 'accepted' | 'rejected' | 'cancelled';
 
   @CreateDateColumn()
   createdAt: Date;

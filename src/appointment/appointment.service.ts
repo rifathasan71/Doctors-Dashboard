@@ -4,6 +4,7 @@ import { Repository, MoreThanOrEqual, LessThan } from 'typeorm';
 import { Appointment } from './appointment.entity';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { Between } from 'typeorm'; 
+import { DashboardFilterDto } from './dto/dashboard-filter.dto';
 
 @Injectable()
 export class AppointmentService {
@@ -40,4 +41,43 @@ export class AppointmentService {
     appointment.status = status;
     return this.repo.save(appointment);
   }
+
+
+  async getDoctorDashboard(doctorId: number, filter: DashboardFilterDto) {
+  const { type = 'daily', date = new Date().toISOString() } = filter;
+  const base = new Date(date);
+  let start: Date, end: Date;
+
+  if (type === 'daily') {
+    start = new Date(base.setHours(0, 0, 0, 0));
+    end = new Date(base.setHours(23, 59, 59, 999));
+  } else if (type === 'monthly') {
+    start = new Date(base.getFullYear(), base.getMonth(), 1);
+    end = new Date(base.getFullYear(), base.getMonth() + 1, 0, 23, 59, 59, 999);
+  } else {
+    start = new Date(base.getFullYear(), 0, 1);
+    end = new Date(base.getFullYear(), 11, 31, 23, 59, 59, 999);
+  }
+
+  const all = await this.repo.find({
+    where: {
+      doctorId,
+      appointmentDate: Between(start, end),
+    },
+  });
+
+  return {
+    total: all.length,
+    accepted: all.filter(a => a.status === 'accepted').length,
+    pending: all.filter(a => a.status === 'pending').length,
+    rejected: all.filter(a => a.status === 'rejected').length,
+    cancelled: all.filter(a => a.status === 'cancelled').length,
+    income: all
+      .filter(a => a.status === 'accepted')
+      .reduce((sum, appt) => sum + (appt.fee || 0), 0),
+    from: start,
+    to: end,
+  };
+}
+
 }

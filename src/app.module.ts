@@ -11,8 +11,9 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { AvailabilityModule } from './availability/availability.module';
 import { LabresultModule } from './labresult/labresult.module';
 import { TreatmentmessageModule } from './treatmentmessage/treatmentmessage.module';
+import { CancellationModule } from './cancellation/cancellation.module';
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), TestModule, PatientModule, DoctorModule, AuthModule, AppointmentModule, AvailabilityModule, LabresultModule, TreatmentmessageModule],
+  imports: [TypeOrmModule.forRoot(dataSourceOptions), TestModule, PatientModule, DoctorModule, AuthModule, AppointmentModule, AvailabilityModule, LabresultModule, TreatmentmessageModule, CancellationModule],
   controllers: [AppController],
   providers: [AppService],
 })
