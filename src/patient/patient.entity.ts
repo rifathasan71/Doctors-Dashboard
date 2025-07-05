@@ -29,6 +29,4 @@ export class Patient {
   @Column({ type: 'timestamp', nullable: true })
   next_appointment: Date;
 
-  @Column({ type: 'int', default: 0 })
-  discount_percentage: number;
 }

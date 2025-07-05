@@ -5,9 +5,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 🛡️ Enable class-validator for all DTOs
+  
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(process.env.PORT ?? 3000);
+  app.enableCors({
+    origin: "http://localhost:3000", 
+    credentials: true,
+  });
+
+  await app.listen(process.env.PORT ?? 5000);
 }
 bootstrap();

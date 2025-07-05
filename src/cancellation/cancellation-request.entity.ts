@@ -14,10 +14,10 @@ export class CancellationRequest {
   doctorId: number;
 
   @Column({ nullable: true })
-  targetDate: string; // for full-day
+  targetDate: string; 
 
   @Column({ nullable: true })
-  appointmentId: number; // for single appointment
+  appointmentId: number; 
 
   @Column({ default: 'pending' })
   status: 'pending' | 'approved' | 'rejected';

@@ -8,8 +8,8 @@ export class Appointment {
   @Column()
   doctorId: number;
 
-  @Column()
-  patientName: string;
+  @Column({nullable: true})
+  patientName?: string;
 
   @Column()
   reason: string;
@@ -22,4 +22,11 @@ export class Appointment {
 
   @CreateDateColumn()
   createdAt: Date;
+  @Column({ default: 0 })
+  fee: number;
+
+  @Column({ type: 'int', default: 0 })
+discount_percentage: number;
+
+
 }
